@@ -10,7 +10,7 @@ export default function AuthProvider({ children }) {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   React.useEffect(() => {
-    const unsubscrided = auth.onAuthStateChanged((user) => {
+    const unsubscribed = auth.onAuthStateChanged((user) => {
       console.log({ user });
       if (user) {
         const { displayName, email, uid, photoURL } = user;
@@ -24,12 +24,13 @@ export default function AuthProvider({ children }) {
         navigate("/");
         return;
       }
+      setIsLoading(false);
       navigate("/login");
     });
 
     // clean function
     return () => {
-      unsubscrided();
+      unsubscribed();
     };
   }, [navigate]);
 
